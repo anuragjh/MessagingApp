@@ -4,9 +4,7 @@
     <!-- Add permissions your app needs -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Add other permissions as needed -->
 
-    <!-- Application-level attributes -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,21 +15,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MessagingApp"
         tools:targetApi="31">
-
-        <!-- Splash Screen Activity -->
+        <activity
+            android:name=".OtpVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" /> <!-- Splash Screen Activity -->
         <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
-
     </application>
 
 </manifest>

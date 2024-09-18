@@ -11,7 +11,7 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hello"
+        android:text="THIS IS SPLASH SCREEN "
         android:textSize="24sp"
         android:textColor="@color/black" />
 
