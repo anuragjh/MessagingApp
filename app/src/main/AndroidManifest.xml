@@ -16,9 +16,11 @@
         android:theme="@style/Theme.MessagingApp"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ProfileSetupActivity"
             android:exported="false" />
-        <!-- Splash Screen Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" /> <!-- Splash Screen Activity -->
         <activity
             android:name=".SplashScreen"
             android:exported="true">
