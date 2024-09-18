@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ProfileSetUp">
+
+    <!-- Lottie Animation Container (For Profile and Loading Animations) -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!-- Profile Animation (Shown initially) -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/logoAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/noprofile"
+            android:visibility="visible" />
+
+        <!-- Loading Animation (Initially hidden, shown when needed) -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/logoAnimationLoading"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loadingface"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Title TextView (Add Profile Heading) -->
+    <TextView
+        android:id="@+id/profileMess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/animation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="Add Profile"
+        android:fontFamily="@font/gilroylight"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textFontWeight="900"
+        android:textStyle="bold" />
+
+    <!-- Sub-heading TextView (Welcome Message) -->
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileMess"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Set Up To Go"
+        android:fontFamily="@font/gilroyextrabold"
+        android:textColor="@color/PrimaryColor"
+        android:textSize="32sp"
+        android:textFontWeight="900"
+        android:textStyle="bold" />
+
+    <!-- Name Input Container (Icon + EditText for Name) -->
+    <LinearLayout
+        android:id="@+id/nameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcomeMessage"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edittext_background"
+        android:padding="8dp">
+
+        <!-- Name Icon -->
+        <ImageView
+            android:id="@+id/emailIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nameicon2"
+            android:contentDescription="Name Icon" />
+
+        <!-- Name EditText (User's Name) -->
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="Name"
+            android:fontFamily="@font/gilroylight"
+            android:textColorHint="@color/SecondaryColor"
+            android:inputType="textPersonName"
+        android:paddingStart="8dp"
+        android:textColor="@color/PrimaryColor" />
+    </LinearLayout>
+
+    <!-- Bio Input Container (Icon + EditText for Bio/Username) -->
+    <LinearLayout
+        android:id="@+id/BioContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameContainer"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edittext_background"
+        android:padding="8dp">
+
+        <!-- Bio Icon -->
+        <ImageView
+            android:id="@+id/BioIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/bioicon"
+            app:tint="@color/SecondaryColor"
+            android:contentDescription="Bio Icon" />
+
+        <!-- Bio EditText (Username that defines the user) -->
+        <EditText
+            android:id="@+id/BioEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="Username That Defines You..."
+            android:fontFamily="@font/gilroylight"
+            android:textColorHint="@color/SecondaryColor"
+            android:inputType="text"
+        android:paddingStart="8dp"
+        android:textColor="@color/PrimaryColor" />
+    </LinearLayout>
+
+    <!-- Username Availability TextView -->
+    <TextView
+        android:id="@+id/usernameAvailabilityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BioContainer"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorError"
+        android:textSize="14sp"
+        android:fontFamily="@font/gilroylight"
+        android:visibility="visible" />
+
+    <!-- Finish Button -->
+    <Button
+        android:id="@+id/Finish"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BioContainer"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:padding="12dp"
+        android:fontFamily="@font/gilroylight"
+        android:backgroundTint="@color/PrimaryColor"
+        android:text="Finish"
+        android:textColor="@color/SecondaryWhite"
+        android:textSize="18sp"
+        android:visibility="visible" />
+</RelativeLayout>

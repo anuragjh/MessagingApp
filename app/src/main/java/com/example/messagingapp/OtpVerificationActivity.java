@@ -3,6 +3,8 @@ package com.example.messagingapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +23,13 @@ import java.util.Map;
 
 public class OtpVerificationActivity extends AppCompatActivity {
 
-    private EditText otpInput;
+    private EditText otpBox1, otpBox2, otpBox3, otpBox4, otpBox5, otpBox6;
     private TextView errorMessage;
-    private Button verifyButton;
-    private Button resendOtpButton;
+    private Button verifyButton, resendOtpButton;
     private ProgressBar progressBar;
     private TextView resendOtpTextView;
     private CountDownTimer resendTimer;
-    private long otpValidityMillis = 10 * 60 * 1000L; // 10 minutes in milliseconds
-    private long resendTimeoutMillis = 10 * 60 * 1000L; // 10 minutes in milliseconds
+    private long resendTimeoutMillis = 10 * 60 * 1000L; // 10 minutes
     private String userEmail;
 
     @Override
@@ -37,7 +37,12 @@ public class OtpVerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_verification);
 
-        otpInput = findViewById(R.id.otp_input);
+        otpBox1 = findViewById(R.id.otp_box_1);
+        otpBox2 = findViewById(R.id.otp_box_2);
+        otpBox3 = findViewById(R.id.otp_box_3);
+        otpBox4 = findViewById(R.id.otp_box_4);
+        otpBox5 = findViewById(R.id.otp_box_5);
+        otpBox6 = findViewById(R.id.otp_box_6);
         errorMessage = findViewById(R.id.error_message);
         resendOtpButton = findViewById(R.id.resend_otp_button);
         resendOtpTextView = findViewById(R.id.resend_otp_textview);
@@ -49,14 +54,61 @@ public class OtpVerificationActivity extends AppCompatActivity {
         verifyButton.setOnClickListener(v -> verifyOtp());
         resendOtpButton.setOnClickListener(v -> resendOtp());
 
+        setupOtpInputListeners();
+
         startResendTimer();
     }
 
-    private void verifyOtp() {
-        String otp = otpInput.getText().toString().trim();
+    private void setupOtpInputListeners() {
+        otpBox1.addTextChangedListener(new OtpTextWatcher(otpBox1, otpBox2));
+        otpBox2.addTextChangedListener(new OtpTextWatcher(otpBox2, otpBox1, otpBox3));
+        otpBox3.addTextChangedListener(new OtpTextWatcher(otpBox3, otpBox2, otpBox4));
+        otpBox4.addTextChangedListener(new OtpTextWatcher(otpBox4, otpBox3, otpBox5));
+        otpBox5.addTextChangedListener(new OtpTextWatcher(otpBox5, otpBox4, otpBox6));
+        otpBox6.addTextChangedListener(new OtpTextWatcher(otpBox6, otpBox5));
+    }
 
-        if (otp.isEmpty()) {
-            errorMessage.setText("Please enter the OTP.");
+    private class OtpTextWatcher implements TextWatcher {
+        private EditText currentView, previousView, nextView;
+
+        public OtpTextWatcher(EditText currentView, EditText previousView, EditText nextView) {
+            this.currentView = currentView;
+            this.previousView = previousView;
+            this.nextView = nextView;
+        }
+
+        public OtpTextWatcher(EditText currentView, EditText previousView) {
+            this(currentView, previousView, null);
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 1 && nextView != null) {
+                nextView.requestFocus(); // Move to next box
+            } else if (s.length() == 0 && previousView != null) {
+                previousView.requestFocus(); // Move to previous box on delete
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    }
+
+    private void verifyOtp() {
+        String otp = otpBox1.getText().toString().trim() +
+                otpBox2.getText().toString().trim() +
+                otpBox3.getText().toString().trim() +
+                otpBox4.getText().toString().trim() +
+                otpBox5.getText().toString().trim() +
+                otpBox6.getText().toString().trim();
+
+        if (otp.isEmpty() || otp.length() < 6) {
+            errorMessage.setText("Please enter the complete OTP.");
             return;
         }
 
@@ -71,12 +123,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         long validUntil = (long) otpData.get("validUntil");
 
                         if (storedOtp.equals(otp) && System.currentTimeMillis() <= validUntil) {
-                            // Delete OTP document after successful verification
                             db.collection("otp").document(userEmail).delete()
                                     .addOnSuccessListener(aVoid -> Log.d("OtpVerification", "OTP deleted successfully"))
                                     .addOnFailureListener(e -> Log.w("OtpVerification", "Error deleting OTP", e));
 
-                            startActivity(new Intent(OtpVerificationActivity.this, MainActivity.class));
+                            Intent intent = new Intent(OtpVerificationActivity.this, ProfileSetUp.class);
+                            intent.putExtra("user_email", userEmail);
+                            startActivity(intent);
                             finish();
                         } else {
                             errorMessage.setText("Invalid or expired OTP.");
@@ -91,7 +144,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
                     errorMessage.setText("Error verifying OTP. Please try again.");
                 });
     }
-
 
     private void resendOtp() {
         OtpUtils.sendOtpEmail(userEmail, new OtpUtils.OtpCallback() {
@@ -112,7 +164,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorMessage) {
-
+                OtpVerificationActivity.this.errorMessage.setText("Error: " + errorMessage);
             }
         });
     }
@@ -124,7 +176,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
         resendOtpButton.setEnabled(false);
 
-        resendTimer = new CountDownTimer(resendTimeoutMillis, 1000) { // 1 second interval
+        resendTimer = new CountDownTimer(resendTimeoutMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long minutes = millisUntilFinished / 1000 / 60;

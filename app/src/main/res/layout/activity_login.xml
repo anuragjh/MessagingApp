@@ -4,23 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:layout_marginTop="32dp"
+    android:background="@color/white"
     tools:context=".LoginActivity">
 
     <!-- Back Button -->
 
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="centerInside"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/back_icon"
-        android:contentDescription="Back"
-        app:tint="@color/PrimaryColor" />
 
     <!-- Title -->
     <com.airbnb.lottie.LottieAnimationView
@@ -28,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
-        android:layout_below="@+id/backButton"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/mail" />
@@ -41,7 +28,7 @@
         android:layout_below="@+id/logoAnimation"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:text="Create an Account"
+        android:text="Enter Your Email"
         android:fontFamily="@font/gilroyextrabold"
         android:textColor="@color/PrimaryColor"
         android:textSize="32sp"
@@ -82,13 +69,7 @@
             android:paddingStart="8dp"
             android:textColor="@color/PrimaryColor" />
 
-        <ImageView
-            android:id="@+id/emailCheckIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_check"
-            android:visibility="gone" />
+
     </LinearLayout>
 
     <Button
@@ -103,18 +84,22 @@
         android:fontFamily="@font/gilroylight"
         android:backgroundTint="@color/PrimaryColor"
         android:text="Next"
-        android:textColor="#ffffff"
+        android:textColor="@color/SecondaryWhite"
         android:textSize="18sp"
         android:visibility="visible"/>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/otpStatusTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
         android:padding="12dp"
-        android:layout_margin="60dp"
         android:gravity="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/gilroylight"
+        android:textSize="12sp"
         android:text="Status will appear here"
         android:layout_below="@id/sendOtpButton"
         />
