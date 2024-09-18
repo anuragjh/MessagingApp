@@ -16,7 +16,7 @@
         android:theme="@style/Theme.MessagingApp"
         tools:targetApi="31">
         <activity
-            android:name=".OtpVerificationActivity"
+            android:name=".ProfileSetupActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
